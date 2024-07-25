@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { getItem, setItem } from '~/utils/storage';
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   description: string;

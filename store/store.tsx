@@ -1,16 +1,28 @@
 import { useContext, createContext, type PropsWithChildren } from 'react';
 
 import { useIsFirstTime } from '~/hooks/use-is-first-time';
-import useTasks from '~/hooks/use-tasks';
+import useTasks, { type Task } from '~/hooks/use-tasks';
 
 const StoreContext = createContext<{
   isFirstTime: boolean | null;
   isLoading: boolean;
   updateIsFirstTime: (value: boolean) => Promise<void>;
+  tasks: Task[];
+  isLoadingTask: boolean;
+  addTask: (task: Task) => Promise<void>;
+  deleteTask: (taskId: string) => Promise<void>;
+  getTasks: () => Promise<void>;
+  updateTask: (updatedTask: Task) => Promise<void>;
 }>({
   isLoading: false,
   isFirstTime: null,
   updateIsFirstTime: async () => {},
+  tasks: [],
+  isLoadingTask: false,
+  addTask: async () => {},
+  deleteTask: async () => {},
+  getTasks: async () => {},
+  updateTask: async () => {},
 });
 
 export function useStore() {
@@ -30,9 +42,17 @@ export function StoreProvider({ children }: PropsWithChildren) {
   return (
     <StoreContext.Provider
       value={{
+        //onboarding data
         isFirstTime,
         isLoading,
         updateIsFirstTime,
+        //tasks data
+        tasks,
+        isLoadingTask,
+        addTask,
+        deleteTask,
+        getTasks,
+        updateTask,
       }}>
       {children}
     </StoreContext.Provider>
