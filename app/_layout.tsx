@@ -1,7 +1,11 @@
-import '../global.css';
+import { Slot } from 'expo-router';
 
-import { Stack } from 'expo-router';
+import { StoreProvider } from '../store/store';
 
-export default function Layout() {
-  return <Stack />;
+export default function Root() {
+  return (
+    <StoreProvider>
+      <Slot />
+    </StoreProvider>
+  );
 }
