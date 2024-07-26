@@ -8,8 +8,9 @@ import { Container } from '~/components/Container';
 import { renderBackdrop } from '~/components/modal';
 import NoTasks from '~/components/no-tasks';
 import TaskList from '~/components/task-list';
+import { TaskStatus } from '~/hooks/use-tasks';
 import { useStore } from '~/store/store';
-import { taskFilters } from '~/utils/constants';
+import { taskFilterIcons, taskFilters } from '~/utils/constants';
 
 export default function Home() {
   const [title, seTitle] = useState('');
@@ -28,15 +29,18 @@ export default function Home() {
   }, []);
 
   const createNewTask = () => {
+    if (title.length < 2) {
+      console.error('Title must be at least 2 characters long');
+      return;
+    }
     const task = {
-      id: uuid.v4(),
+      id: uuid.v4() as string,
       title,
       description,
       date: new Date(),
-      status: 'PROGRESS',
+      status: TaskStatus.PROGRESS,
     };
-    //call store fucntion
-    console.log(task);
+    addTask(task);
   };
 
   const [visible, setVisible] = useState(false);
@@ -72,14 +76,15 @@ export default function Home() {
                     key={filter}
                     onPress={() => handleMenuItemPress(filter)}
                     title={filter}
-                    leadingIcon={selectedItem === filter ? 'check-bold' : undefined}
+                    leadingIcon={selectedItem === filter ? taskFilterIcons[filter] : undefined}
                   />
                 ))}
               </Menu>
             </Appbar.Header>
           </View>
-
-          {!tasks.length > 0 ? <TaskList tasks={tasks} /> : <NoTasks />}
+          <View className="top-[64] flex-1 ">
+            {tasks.length > 0 ? <TaskList tasks={tasks} /> : <NoTasks />}
+          </View>
           <FAB
             icon="plus"
             style={styles.fab}
@@ -154,5 +159,5 @@ const styles = {
 };
 
 const contentContainer = {
-  container: 'flex-1 flex  bg-grey-600 justify-center',
+  container: 'flex-1 flex  bg-grey-200 justify-center',
 };

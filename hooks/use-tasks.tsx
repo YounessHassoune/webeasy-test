@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { getItem, setItem } from '~/utils/storage';
 
+export enum TaskStatus {
+  PROGRESS = 'PROGRESS',
+  DONE = 'DONE',
+}
 export type Task = {
   id: string;
   title: string;
   description: string;
   date: Date;
-  status: 'PROGRESS' | 'DONE';
+  status: TaskStatus;
 };
 
 const useTasks = () => {
