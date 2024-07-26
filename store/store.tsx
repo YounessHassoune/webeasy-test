@@ -1,7 +1,8 @@
-import { useContext, createContext, type PropsWithChildren } from 'react';
+import { useContext, createContext, type PropsWithChildren, useState, useMemo } from 'react';
 
 import { useIsFirstTime } from '~/hooks/use-is-first-time';
 import useTasks, { type Task } from '~/hooks/use-tasks';
+import { filterToStatusMap, taskFilters } from '~/utils/constants';
 
 const StoreContext = createContext<{
   isFirstTime: boolean | null;
@@ -13,6 +14,9 @@ const StoreContext = createContext<{
   deleteTask: (taskId: string) => Promise<void>;
   getTasks: () => Promise<void>;
   updateTask: (updatedTask: Task) => Promise<void>;
+  filteredTasks: Task[];
+  updateFilter: (newFilter: string) => void;
+  filter: string;
 }>({
   isLoading: false,
   isFirstTime: null,
@@ -23,6 +27,9 @@ const StoreContext = createContext<{
   deleteTask: async () => {},
   getTasks: async () => {},
   updateTask: async () => {},
+  filteredTasks: [],
+  updateFilter: () => {},
+  filter: '',
 });
 
 export function useStore() {
@@ -38,6 +45,21 @@ export function useStore() {
 export function StoreProvider({ children }: PropsWithChildren) {
   const { isFirstTime, isLoading, updateIsFirstTime } = useIsFirstTime();
   const { tasks, isLoading: isLoadingTask, addTask, deleteTask, getTasks, updateTask } = useTasks();
+  const [filter, setFilter] = useState<string>(taskFilters[0]);
+
+  // Function to update the filter
+  const updateFilter = (newFilter: string) => {
+    setFilter(newFilter);
+  };
+
+  // Filtered tasks based on the filter state
+  const filteredTasks = useMemo(() => {
+    const statusFilter = filterToStatusMap[filter];
+    if (statusFilter === 'All') {
+      return tasks;
+    }
+    return tasks.filter((task) => task.status === statusFilter);
+  }, [tasks, filter]);
 
   return (
     <StoreContext.Provider
@@ -53,6 +75,10 @@ export function StoreProvider({ children }: PropsWithChildren) {
         deleteTask,
         getTasks,
         updateTask,
+        //filter data
+        filter,
+        filteredTasks,
+        updateFilter,
       }}>
       {children}
     </StoreContext.Provider>

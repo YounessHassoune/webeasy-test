@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Card, Text, Button } from 'react-native-paper';
+import { Card, Text, Button, IconButton } from 'react-native-paper';
 
 import { TaskStatus, type Task as TaskTpe } from '~/hooks/use-tasks';
 import { useStore } from '~/store/store';
+import { taskCardIcon } from '~/utils/constants';
 import { truncateDescription } from '~/utils/truncate';
 
 interface TaskProps {
@@ -17,10 +18,20 @@ export default function Task({ task }: TaskProps) {
     setIsContentVisible(!isContentVisible);
   };
   return (
-    <Card onPress={toggleContentVisibility} mode="elevated" elevation={1}>
+    <Card
+      onPress={toggleContentVisibility}
+      mode={task.status === TaskStatus.DONE ? 'contained' : 'elevated'}>
       <Card.Title
         title={task.title}
+        titleStyle={[
+          task.status === TaskStatus.DONE && {
+            textDecorationLine: 'line-through',
+          },
+        ]}
         subtitle={!isContentVisible ? truncateDescription(task.description) : ''}
+        right={(props) => (
+          <IconButton {...props} icon={taskCardIcon[task.status]} onPress={() => {}} />
+        )}
       />
       {isContentVisible && (
         <Card.Content>

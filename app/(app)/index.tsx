@@ -1,21 +1,21 @@
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
-import { TextInput, Button, Text, FAB, Appbar, Menu } from 'react-native-paper';
+import { TextInput, Button, Text, FAB } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import { Container } from '~/components/Container';
+import Header from '~/components/header';
 import { renderBackdrop } from '~/components/modal';
 import NoTasks from '~/components/no-tasks';
 import TaskList from '~/components/task-list';
 import { TaskStatus } from '~/hooks/use-tasks';
 import { useStore } from '~/store/store';
-import { taskFilterIcons, taskFilters } from '~/utils/constants';
 
 export default function Home() {
   const [title, seTitle] = useState('');
   const [description, setDescription] = useState('');
-  const { tasks, addTask } = useStore();
+  const { addTask, filteredTasks } = useStore();
 
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -43,47 +43,15 @@ export default function Home() {
     addTask(task);
   };
 
-  const [visible, setVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(taskFilters[0]);
-
-  const handleMenuItemPress = (item) => {
-    setSelectedItem(item);
-    closeMenu();
-  };
-  const openMenu = () => setVisible(true);
-
-  const closeMenu = () => setVisible(false);
   return (
     <>
       <Container>
         <View className={contentContainer.container}>
           <View className="absolute left-0 right-0 top-0">
-            <Appbar.Header
-              mode="small"
-              elevated
-              statusBarHeight={0}
-              style={{
-                backgroundColor: 'transparent',
-              }}>
-              <Appbar.Content title="Tasks" />
-              <Menu
-                visible={visible}
-                onDismiss={closeMenu}
-                anchorPosition="bottom"
-                anchor={<Appbar.Action icon="filter" onPress={openMenu} />}>
-                {taskFilters.map((filter) => (
-                  <Menu.Item
-                    key={filter}
-                    onPress={() => handleMenuItemPress(filter)}
-                    title={filter}
-                    leadingIcon={selectedItem === filter ? taskFilterIcons[filter] : undefined}
-                  />
-                ))}
-              </Menu>
-            </Appbar.Header>
+            <Header />
           </View>
           <View className="top-[64] flex-1 ">
-            {tasks.length > 0 ? <TaskList tasks={tasks} /> : <NoTasks />}
+            {filteredTasks.length > 0 ? <TaskList tasks={filteredTasks} /> : <NoTasks />}
           </View>
           <FAB
             icon="plus"
