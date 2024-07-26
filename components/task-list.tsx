@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list';
 import { View } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import Task from './task';
 
@@ -18,6 +19,13 @@ export default function TaskList({ tasks }: TaskListProps) {
         estimatedItemSize={10}
         contentContainerStyle={{ paddingHorizontal: 2, paddingVertical: 2 }}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+        ListEmptyComponent={
+          <View>
+            <Text variant="bodyMedium" style={{ textAlign: 'center' }}>
+              Sorry! No data found
+            </Text>
+          </View>
+        }
       />
       {/* <ScrollView
         style={{

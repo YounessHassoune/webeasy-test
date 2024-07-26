@@ -15,7 +15,7 @@ import { useStore } from '~/store/store';
 export default function Home() {
   const [title, seTitle] = useState('');
   const [description, setDescription] = useState('');
-  const { addTask, filteredTasks } = useStore();
+  const { tasks, addTask, filteredTasks } = useStore();
 
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -51,7 +51,7 @@ export default function Home() {
             <Header />
           </View>
           <View className="top-[64] flex-1 ">
-            {filteredTasks.length > 0 ? <TaskList tasks={filteredTasks} /> : <NoTasks />}
+            {tasks.length > 0 ? <TaskList tasks={filteredTasks} /> : <NoTasks />}
           </View>
           <FAB
             icon="plus"
