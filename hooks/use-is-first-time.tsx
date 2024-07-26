@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { getItem, setItem } from '~/utils/storage';
 
-const IS_FIRST_TIME = 'IS_FIRST_TIME';
+const IS_FIRST_TIME = 'afwew';
 
 export const useIsFirstTime = () => {
   const [isFirstTime, setIsFirstTime] = useState<boolean | null>(null);

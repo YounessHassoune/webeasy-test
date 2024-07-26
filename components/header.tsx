@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Appbar, Menu } from 'react-native-paper';
 
 import { useStore } from '~/store/store';
-import { taskFilterIcons, taskFilters } from '~/utils/constants';
+import { taskFilters } from '~/utils/constants';
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
@@ -35,7 +35,7 @@ export default function Header() {
             key={filter}
             onPress={() => handleMenuItemPress(filter)}
             title={filter}
-            leadingIcon={selectedFilter === filter ? taskFilterIcons[filter] : undefined}
+            leadingIcon={selectedFilter === filter ? 'check' : undefined}
           />
         ))}
       </Menu>

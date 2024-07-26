@@ -22,39 +22,11 @@ export default function TaskList({ tasks }: TaskListProps) {
         ListEmptyComponent={
           <View>
             <Text variant="bodyMedium" style={{ textAlign: 'center' }}>
-              Sorry! No data found
+              Sorry! No Task found
             </Text>
           </View>
         }
       />
-      {/* <ScrollView
-        style={{
-          top: 64,
-          maxHeight: 50,
-        }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          height: 'auto',
-        }}>
-        {taskFilters.map((filter) => (
-          <Chip
-            key={`chip-${filter}`}
-            rippleColor="transparent"
-            mode={filter === 'All' ? 'flat' : 'outlined'}
-            icon={taskFilterIcons[filter]}
-            onPress={() => console.log('Pressed')}
-            style={{
-              height: 50,
-              marginHorizontal: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {filter}
-          </Chip>
-        ))}
-      </ScrollView> */}
     </View>
   );
 }

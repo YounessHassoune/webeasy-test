@@ -6,7 +6,7 @@ import '../global.css';
 
 import { StoreProvider } from '../store/store';
 
-export default function Root() {
+export default function RootLayout() {
   return (
     <GestureHandlerRootView className={styles.container}>
       <PaperProvider>
