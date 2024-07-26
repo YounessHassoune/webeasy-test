@@ -21,5 +21,9 @@ export default function AppLayout() {
     );
   }
 
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ title: 'Tasks', headerShown: false }} />
+    </Stack>
+  );
 }
