@@ -4,9 +4,9 @@ import { View } from 'react-native';
 import { TextInput, Button, Text, FAB } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
-import { Container } from '~/components/Container';
+import { renderBackdrop } from '~/components/backdrop';
+import { Container } from '~/components/container';
 import Header from '~/components/header';
-import { renderBackdrop } from '~/components/modal';
 import NoTasks from '~/components/no-tasks';
 import TaskList from '~/components/task-list';
 import { TaskStatus } from '~/hooks/use-tasks';

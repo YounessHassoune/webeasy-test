@@ -1,13 +1,11 @@
 import { Redirect, Stack } from 'expo-router';
 import { Text } from 'react-native';
 
-import { Container } from '~/components/Container';
+import { Container } from '~/components/container';
 import { useStore } from '~/store/store';
 
 export default function AppLayout() {
   const { isFirstTime, isLoading } = useStore();
-
-  console.log('hhh', isFirstTime);
 
   if (isFirstTime) {
     return <Redirect href="/onboarding" />;
