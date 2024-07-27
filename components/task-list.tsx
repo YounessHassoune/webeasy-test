@@ -13,6 +13,7 @@ export default function TaskList({ tasks }: TaskListProps) {
   return (
     <View className={styles.container}>
       <FlashList
+        showsVerticalScrollIndicator={false}
         data={tasks}
         renderItem={({ item }) => <Task task={item} />}
         keyExtractor={(_, index) => `task-${index}`}

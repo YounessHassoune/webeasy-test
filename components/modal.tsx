@@ -42,6 +42,8 @@ export const Modal = forwardRef<BottomSheetModal, ModalProps>(
         status: TaskStatus.PROGRESS,
       };
       addTask(task);
+      seTitle('');
+      setDescription('');
       dismiss();
     };
     return (
