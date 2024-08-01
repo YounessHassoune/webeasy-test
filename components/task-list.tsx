@@ -1,6 +1,7 @@
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, ViewToken } from '@shopify/flash-list';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useSharedValue } from 'react-native-reanimated';
 
 import Task from './task';
 
@@ -10,15 +11,17 @@ interface TaskListProps {
   tasks: TaskTpe[];
 }
 export default function TaskList({ tasks }: TaskListProps) {
+  const viewableItems = useSharedValue<ViewToken[]>([]);
+
   return (
     <View className={styles.container}>
       <FlashList
         showsVerticalScrollIndicator={false}
         data={tasks}
-        renderItem={({ item }) => <Task task={item} />}
-        keyExtractor={(_, index) => `task-${index}`}
-        estimatedItemSize={10}
-        contentContainerStyle={{ paddingHorizontal: 2, paddingVertical: 2 }}
+        renderItem={({ item }) => <Task task={item} viewableItems={viewableItems} />}
+        keyExtractor={(item, _) => item.id}
+        estimatedItemSize={30}
+        contentContainerStyle={{ paddingHorizontal: 2, paddingBottom: 80, paddingTop: 2 }}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         ListEmptyComponent={
           <View>
@@ -27,6 +30,9 @@ export default function TaskList({ tasks }: TaskListProps) {
             </Text>
           </View>
         }
+        onViewableItemsChanged={({ viewableItems: items }) => {
+          viewableItems.value = items;
+        }}
       />
     </View>
   );
